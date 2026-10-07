@@ -114,7 +114,9 @@ open class TranscribeTask {
 
             let windowSamples = featureExtractor.windowSamples ?? Constants.defaultWindowSamples
             // Always decode the first window, so a clip no longer than the padding is not dropped
-            while seek < seekClipEnd, seek == seekClipStart || seek < seekClipEnd - windowPadding {
+            var isFirstWindow = true
+            while seek < seekClipEnd, isFirstWindow || seek < seekClipEnd - windowPadding {
+                isFirstWindow = false
                 let windowSeek = seek
                 // calculate new encoder segment features
                 let timeOffset = Float(seek) / Float(WhisperKit.sampleRate)
